@@ -1,42 +1,47 @@
 # GEMINI Project Instructions: Hangman (Dart CLI)
 
-This project is a Command Line Interface (CLI) Hangman game implemented using Dart, following Test-Driven Development (TDD) and Get Shit Done (GSD) principles.
+This project is a CLI Hangman game built with Dart, following TDD and GSD (Get Shit Done) principles.
 
 ## Project Overview
 - **Purpose:** A classic Hangman word-guessing game for the terminal.
-- **Main Technologies:** Dart.
-- **Methodology:** TDD (Red-Green-Refactor) and GSD (focused, incremental delivery).
-- **Learning Goal:** Interactive learning through the development process.
+- **Main Technologies:** Dart SDK 3.11.5.
+- **Core Methodology:** Test-Driven Development (TDD) and GSD.
+
+## GSD (Get Shit Done) Principles
+- **Atomic Progress:** Focus on small, verifiable milestones.
+- **Fail Fast:** Use TDD to identify issues immediately.
+- **Lean Implementation:** Write only the code necessary to pass the current test.
+- **Continuous Validation:** Every commit must pass all tests and linting.
+
+## TDD Workflow
+1. **Red:** Write a failing test for the smallest possible unit of logic.
+2. **Green:** Write the minimal code to make the test pass.
+3. **Refactor:** Clean up the code while keeping the test green.
+
+## Git Workflow & Conventions
+- **Main Branch:** `main` (Stable, production-ready code).
+- **Feature Branches:** Use `feat/feature-name` for new work.
+- **Commits:**
+  - Commit after every "Green" phase or successful refactor.
+  - Message format: `[Topic/Phase] Short description (e.g., [TDD: Green] Add word validation)`.
+- **Changelog:** Update `CHANGELOG.md` with every milestone, including a timestamp.
 
 ## Building and Running
-
-### Prerequisites
-- Dart SDK installed (Check `$DART_HOME`).
-
 ### Commands
-- **Initialize Project:** `dart create --template=console-full .`
+- **Initialize Project:** `dart create . --force`
 - **Install Dependencies:** `dart pub get`
-- **Run the Project:** `dart run bin/main.dart`
+- **Run the Project:** `dart run bin/hangman.dart`
 - **Run Tests:** `dart test`
-- **Linter/Analysis:** `dart analyze`
+- **Linting:** `dart analyze`
 
-## Development & Git Workflow
-- **TDD Flow:** Write a failing test -> Implementation -> Pass test -> Refactor.
-- **GSD Approach:** Focus on small, actionable milestones. Don't over-engineer.
-- **Git Strategy:** 
-    - Main branch: `main` (stable).
-    - Feature branches: `feat/feature-name` for new work.
-    - Atomic commits: One commit per small milestone/logical change.
-    - `CHANGELOG.md`: Updated with every significant milestone (with timestamps).
+## Project Structure (Planned)
+- `bin/`: CLI entry point.
+- `lib/`: Core game logic.
+- `test/`: Unit and integration tests.
 
-## Milestones (GSD)
-1. [x] **Environment & Initial Setup:** Git init, project scaffolding, check Dart.
-2. [ ] **Core Logic (TDD):** Word selection, guess handling, win/loss conditions.
-3. [ ] **CLI Interface:** User input, terminal output (ASCII art for hangman).
-4. [ ] **Polish:** Error handling, replayability.
-
-## Instruction for Gemini
-- Be proactive in suggesting the next small TDD step.
-- Explain the "why" behind Dart features or architectural choices to support the user's learning.
-- Always verify changes with tests.
-- Update `CHANGELOG.md` and commit after completing each sub-task.
+## Current Milestones
+- [x] Environment Check ($DART_HOME: /opt/homebrew/Cellar/dart-sdk/3.11.5/libexec)
+- [x] Git Initialization
+- [x] Initial GEMINI.md & CHANGELOG.md
+- [ ] Project Initialization (`dart create`)
+- [ ] TDD Cycle 1: Game State Initialization

@@ -1,8 +1,10 @@
 # Changelog
 
-## [0.1.0] - 2026-05-03
-### Added
-- Initial project scaffolding using Dart `console-full` template.
-- `GEMINI.md` for project instructions and workflow.
-- Git repository initialization.
-- Verification of Dart environment ($DART_HOME).
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### [2025-05-14 14:30]
+- Initialized Git repository.
+- Set up `GEMINI.md` with GSD and TDD workflows.
+- Confirmed Dart environment ($DART_HOME).
