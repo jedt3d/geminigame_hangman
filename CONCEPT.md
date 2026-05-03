@@ -81,6 +81,7 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
 ### Cycle 4: Masked Word Logic
 - **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
 - **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
+- **Status:** Complete (Green).
 pendently of the UI. Focuses on state transitions.
 
 ### Cycle 3: Case Insensitivity

@@ -43,11 +43,24 @@ class HangmanGame {
   /// Checks if the game is over (either won or lost).
   bool get isGameOver => remainingLives <= 0 || isWordGuessed;
 
-  /// Checks if all letters in the [secretWord] have been guessed.
+  /// Returns `true` if all letters in the [secretWord] have been guessed.
   bool get isWordGuessed {
     return secretWord.split('').every((letter) => guessedLetters.contains(letter));
   }
+
+  /// Returns a string representation of the word for display.
+  /// 
+  /// Guessed letters are revealed, others are shown as underscores.
+  /// Letters are separated by spaces for better readability in the terminal.
+  /// Example: 'H _ N _ _ _ N'
+  String get maskedWord {
+    return secretWord
+        .split('')
+        .map((letter) => guessedLetters.contains(letter) ? letter : '_')
+        .join(' ');
+  }
 }
+
 
 /// Utilities for validating the terminal environment.
 class TerminalValidator {

@@ -53,6 +53,23 @@ void main() {
       expect(game.guessedLetters, contains('D'));
       expect(game.guessedLetters, contains('A'));
     });
+
+    test('Masked word representation is correct', () {
+      // WHY: The player needs to see the progress of their guesses.
+      // Correct guesses reveal letters, others remain as underscores.
+      final game = HangmanGame(secretWord: 'HANGMAN');
+      
+      expect(game.maskedWord, equals('_ _ _ _ _ _ _'), reason: 'Initial word should be all underscores');
+      
+      game.guess('A');
+      expect(game.maskedWord, equals('_ A _ _ _ A _'), reason: 'Guessed letter "A" should be revealed');
+      
+      game.guess('N');
+      expect(game.maskedWord, equals('_ A N _ _ A N'), reason: 'Guessed letter "N" should be revealed');
+      
+      game.guess('H');
+      expect(game.maskedWord, equals('H A N _ _ A N'), reason: 'Guessed letter "H" should be revealed');
+    });
   });
 
   group('Terminal Size Guarding', () {
