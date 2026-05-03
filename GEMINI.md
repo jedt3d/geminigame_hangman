@@ -49,5 +49,5 @@ This project is a CLI Hangman game built with Dart, following TDD and GSD (Get S
 - [x] Environment Check ($DART_HOME: /opt/homebrew/Cellar/dart-sdk/3.11.5/libexec)
 - [x] Git Initialization
 - [x] Initial GEMINI.md & CHANGELOG.md
-- [ ] Project Initialization (`dart create`)
-- [ ] TDD Cycle 1: Game State Initialization
+- [x] Project Initialization (`dart create`)
+- [x] TDD Cycle 1: Game State Initialization
