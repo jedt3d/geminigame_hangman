@@ -62,32 +62,44 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
 - **Clear-and-Redraw (Recommended):**
     1. Send the ANSI escape code `\x1B[2J` (Clear Screen) and `\x1B[H` (Home Cursor).
     2. Redraw the entire UI.
-    3. **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.
+    - **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.
 
-## TDD Progress Log
+    ### 4. CLI Entry Point Patterns
+    The `main()` function in `bin/` acts as the orchestrator:
+    1. **Guard:** Check environment (terminal size, dependencies).
+    2. **Clear:** Reset the visual buffer to provide a clean state.
+    3. **Init:** Create the game state object.
+    4. **Render:** Perform the initial print of the state.
 
-### Cycle 1: Foundation & Guarding
-- **Objective:** Initialize game state and validate terminal environment.
-- **Why:** Ensuring the environment is safe (Dimension Guarding) and the game state is consistent before any logic is applied.
+    ## TDD Progress Log
 
-### Cycle 2: Guessing Logic
-- **Objective:** Implement core "Update" rules (lives, guess tracking).
-- **Why:** To verify the "Brain" of the game independently of the UI. Focuses on state transitions.
+    ### Cycle 1: Foundation & Guarding
+    - **Objective:** Initialize game state and validate terminal environment.
+    - **Why:** Ensuring the environment is safe (Dimension Guarding) and the game state is consistent before any logic is applied.
 
-### Cycle 3: Case Insensitivity
-- **Objective:** Normalize all input to uppercase.
-- **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
+    ### Cycle 2: Guessing Logic
+    - **Objective:** Implement core "Update" rules (lives, guess tracking).
+    - **Why:** To verify the "Brain" of the game independently of the UI. Focuses on state transitions.
 
-### Cycle 4: Masked Word Logic
-- **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
-- **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
-- **Technical Rationale:** Spaces are added between characters (`_ _ _`) because consecutive underscores can appear as a single solid line in many terminal fonts, making it impossible for the player to count the letters.
-- **Status:** Complete (Green).
+    ### Cycle 3: Case Insensitivity
+    - **Objective:** Normalize all input to uppercase.
+    - **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
 
-### Cycle 5: ASCII Gallows Rendering
-- **Objective:** Provide a visual representation of the player's remaining lives using ASCII art.
-- **Why:** Essential thematic element of Hangman. Provides immediate, high-signal feedback on the game's stakes.
-- **Technical Rationale:** We will use multi-line string literals (triple quotes in Dart) to store the gallows states, mapped to the `remainingLives` count.
+    ### Cycle 4: Masked Word Logic
+    - **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
+    - **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
+    - **Technical Rationale:** Spaces are added between characters (`_ _ _`) because consecutive underscores can appear as a single solid line in many terminal fonts, making it impossible for the player to count the letters.
+    - **Status:** Complete (Green).
+
+    ### Milestone: Bridge to CLI
+    - **Objective:** Integrate logic into `bin/hangman.dart`.
+    - **Why:** To verify that our theoretical "Brain" works in a real terminal "Body."
+
+    ### Cycle 5: ASCII Gallows Rendering
+    - **Objective:** Provide a visual representation of the player's remaining lives using ASCII art.
+    - **Why:** Essential thematic element of Hangman. Provides immediate, high-signal feedback on the game's stakes.
+    - **Technical Rationale:** We will use multi-line string literals (triple quotes in Dart) to store the gallows states, mapped to the `remainingLives` count.
+
 pendently of the UI. Focuses on state transitions.
 
 ### Cycle 3: Case Insensitivity
