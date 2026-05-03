@@ -31,7 +31,7 @@ This project is a Command Line Interface (CLI) Hangman game implemented using Da
 
 ## Milestones (GSD)
 1. [x] **Environment & Initial Setup:** Git init, project scaffolding, check Dart.
-2. [ ] **Core Logic (TDD):** Word selection, guess handling, win/loss conditions.
+2. [x] **Core Logic (TDD):** Word selection, guess handling, win/loss conditions.
 3. [ ] **CLI Interface:** User input, terminal output (ASCII art for hangman).
 4. [ ] **Polish:** Error handling, replayability.
 
