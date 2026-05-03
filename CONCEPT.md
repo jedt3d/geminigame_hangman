@@ -77,3 +77,12 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
 ### Cycle 3: Case Insensitivity
 - **Objective:** Normalize all input to uppercase.
 - **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
+
+### Cycle 4: Masked Word Logic
+- **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
+- **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
+pendently of the UI. Focuses on state transitions.
+
+### Cycle 3: Case Insensitivity
+- **Objective:** Normalize all input to uppercase.
+- **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
