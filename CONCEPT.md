@@ -62,46 +62,67 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
 - **Clear-and-Redraw (Recommended):**
     1. Send the ANSI escape code `\x1B[2J` (Clear Screen) and `\x1B[H` (Home Cursor).
     2. Redraw the entire UI.
-    - **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.
+    3. **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.
 
-    ### 4. CLI Entry Point Patterns
-    The `main()` function in `bin/` acts as the orchestrator:
-    1. **Guard:** Check environment (terminal size, dependencies).
-    2. **Clear:** Reset the visual buffer to provide a clean state.
-    3. **Init:** Create the game state object.
-    4. **Render:** Perform the initial print of the state.
+## TDD Progress Log
 
-    ## TDD Progress Log
+## Visual State Rendering: The Gallows
 
-    ### Cycle 1: Foundation & Guarding
-    - **Objective:** Initialize game state and validate terminal environment.
-    - **Why:** Ensuring the environment is safe (Dimension Guarding) and the game state is consistent before any logic is applied.
+### 1. The Problem
+The game state, specifically `remainingLives`, was only represented as a number. To create the classic Hangman experience, we need a strong visual indicator of how close the player is to losing.
 
-    ### Cycle 2: Guessing Logic
-    - **Objective:** Implement core "Update" rules (lives, guess tracking).
-    - **Why:** To verify the "Brain" of the game independently of the UI. Focuses on state transitions.
+### 2. The Solution: A Static View Class
+A new class, `HangmanGallows`, was created to encapsulate the visual representation of the gallows.
+- **Responsibility:** Its sole job is to map a game state (`remainingLives`) to a specific multi-line string of ASCII art.
+- **Implementation:** It holds a `static const` list of the 7 visual stages of the hangman. A static method, `getGraphicForLives(int lives)`, provides the correct string.
+- **Why Static?** The gallows art is constant and the class holds no state of its own, making it a perfect candidate for static members. This avoids the need to instantiate a `HangmanGallows` object in the main game loop.
 
-    ### Cycle 3: Case Insensitivity
-    - **Objective:** Normalize all input to uppercase.
-    - **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
+### 3. TDD Approach
+This component was developed via TDD. Tests were written to confirm that the `getGraphicForLives` method correctly returns the expected ASCII art for the start (6 lives), end (0 lives), and intermediate states, as well as handling invalid input gracefully by throwing a `RangeError`. This ensures the view logic is correct and decoupled from the main game engine.
 
-    ### Cycle 4: Masked Word Logic
-    - **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
-    - **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
-    - **Technical Rationale:** Spaces are added between characters (`_ _ _`) because consecutive underscores can appear as a single solid line in many terminal fonts, making it impossible for the player to count the letters.
-    - **Status:** Complete (Green).
+## Dynamic Word Generation from a Dictionary
 
-    ### Milestone: Bridge to CLI
-    - **Objective:** Integrate logic into `bin/hangman.dart`.
-    - **Why:** To verify that our theoretical "Brain" works in a real terminal "Body."
+### 1. The Problem
+A hardcoded `secretWord` makes the game predictable and boring after a single playthrough. To enhance replayability, the game must source its words from a larger, external collection.
 
-    ### Cycle 5: ASCII Gallows Rendering
-    - **Objective:** Provide a visual representation of the player's remaining lives using ASCII art.
-    - **Why:** Essential thematic element of Hangman. Provides immediate, high-signal feedback on the game's stakes.
-    - **Technical Rationale:** We will use multi-line string literals (triple quotes in Dart) to store the gallows states, mapped to the `remainingLives` count.
+### 2. The Solution: A `WordGenerator` Class
+To keep the main game logic clean and adhere to the **I/O Separation** principle, we've introduced a dedicated `WordGenerator` class with a clear responsibility:
+- **Load:** Read a dictionary file (`assets/words.txt`) from the filesystem.
+- **Filter:** Process the raw list to include only words that meet specific criteria (e.g., >= 7 letters, alphabet-only characters). This ensures game quality.
+- **Provide:** Offer a simple method (`getRandomWord()`) to supply a random, valid word to the `HangmanGame`.
 
-pendently of the UI. Focuses on state transitions.
+### 3. Asynchronous Initialization
+File I/O is an asynchronous operation in Dart. To handle this, the application's `main` function was converted to `async`. The game now follows this startup sequence:
+1.  `main()` starts.
+2.  `await wordGenerator.initialize()` is called. The program pauses here until the file is read and the word list is prepared.
+3.  If successful, a random word is fetched.
+4.  The `HangmanGame` is instantiated with the dynamic word.
+5.  The game loop begins.
+
+This approach ensures the game doesn't start until it has a valid word to play with, and it gracefully handles potential errors like a missing dictionary file.
+
+## TDD Progress Log
+
+### Cycle 1: Foundation & Guarding
+- **Objective:** Initialize game state and validate terminal environment.
+- **Why:** Ensuring the environment is safe (Dimension Guarding) and the game state is consistent before any logic is applied.
+
+### Cycle 2: Guessing Logic
+- **Objective:** Implement core "Update" rules (lives, guess tracking).
+- **Why:** To verify the "Brain" of the game independently of the UI. Focuses on state transitions.
 
 ### Cycle 3: Case Insensitivity
 - **Objective:** Normalize all input to uppercase.
 - **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.
+
+### Cycle 4: Masked Word Logic
+- **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
+- **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
+
+### Cycle 5: Dynamic Word Generation
+- **Objective:** Replace the hardcoded secret word with one randomly selected from a filtered dictionary file.
+- **Why:** To make the game replayable and introduce the concept of asynchronous file I/O during game initialization.
+
+### Cycle 6: Gallows Graphic
+- **Objective:** To visually represent the player's remaining lives using ASCII art.
+- **Why:** This is a core, iconic feature of Hangman that provides immediate, intuitive feedback to the player on their progress and proximity to losing the game.

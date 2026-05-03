@@ -24,7 +24,7 @@ This project is a CLI Hangman game built with Dart, following TDD and GSD (Get S
 - **Commits:**
   - Commit after every "Green" phase or successful refactor.
   - Message format: `[Topic/Phase] Short description (e.g., [TDD: Green] Add word validation)`.
-- **Changelog:** Update `CHANGELOG.md` with every milestone, including a timestamp.
+- **Changelog:** Update `CHANGELOG.md` in detail with every commit.
 
 ## Custom Workflows
 - **Update Concept:** When a valuable technical or architectural concept is discussed, or a TDD cycle is completed, use the keyword "update concept" to trigger its documentation in `CONCEPT.md`. This MUST include:

@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:hangman/hangman.dart';
+import 'package:hangman/gallows.dart';
+import 'package:hangman/word_generator.dart';
 
 /// The entry point for the Hangman CLI game.
-void main() {
+void main() async {
   // Clear the terminal screen using ANSI escape codes
   // \x1B[2J clears the screen, \x1B[H moves the cursor to (0,0)
   stdout.write('\x1B[2J\x1B[H');
@@ -23,15 +25,60 @@ void main() {
   }
 
   // 2. Initialize Game
-  // We'll use a placeholder word for now. In future cycles, we'll implement a word generator.
-  final game = HangmanGame(secretWord: 'GSD-DART');
+  // Load a random word from our dictionary.
+  final String secretWord;
+  try {
+    // We create a WordGenerator and initialize it.
+    final wordGenerator = WordGenerator(filePath: 'bin/words.txt');
+    await wordGenerator.initialize();
+    secretWord = wordGenerator.getRandomWord();
+  } catch (e) {
+    print('❌ Error initializing game:');
+    print(e);
+    exit(1);
+  }
 
-  // 3. Display Initial State
-  // This is the first "Render" phase of our game loop.
+  // Create the game instance with the randomly selected word.
+  final game = HangmanGame(secretWord: secretWord);
+
+  // 3. Game Loop (Input -> Update -> Render)
+  while (!game.isGameOver) {
+    // RENDER PHASE: Clear the screen and draw the current game state.
+    stdout.write('\x1B[2J\x1B[H');
+    print('====================================');
+    print('      GSD HANGMAN (DART CLI)        ');
+    print('====================================');
+
+    // Draw the gallows based on remaining lives.
+    print(HangmanGallows.getGraphicForLives(game.remainingLives));
+
+    print('Lives remaining: ${game.remainingLives}');
+    // Display guessed letters sorted for consistency.
+    print('Guessed letters: ${(game.guessedLetters.toList()..sort()).join(', ')}\n');
+    print('Secret Word: ${game.maskedWord}\n');
+
+    // INPUT PHASE: Prompt the user and read their guess.
+    stdout.write('Guess a letter: ');
+    final input = stdin.readLineSync();
+
+    // UPDATE PHASE: Process the input and update the game state.
+    if (input != null && input.trim().isNotEmpty) {
+      // We only care about the first character of the input.
+      game.guess(input.trim()[0]);
+    }
+  }
+
+  // 4. Game Over Screen
+  stdout.write('\x1B[2J\x1B[H'); // Final clear for the result screen.
   print('====================================');
-  print('   WELCOME TO GSD HANGMAN (CLI)     ');
-  print('====================================');
-  print('\nSecret Word: ${game.maskedWord}');
-  print('Lives remaining: ${game.remainingLives}');
-  print('\n(Wait for the next cycle to implement input handling!)');
+  print('            GAME OVER               ');
+  print('====================================\n');
+
+  if (game.isWordGuessed) {
+    print('🎉 YOU WON! 🎉\n');
+  } else {
+    print('💀 YOU LOST! 💀\n');
+  }
+
+  print('The word was: ${game.secretWord}');
 }
