@@ -43,3 +43,23 @@ A CLI game requires a "Safe Zone" to display the UI (e.g., the Hangman gallows, 
     - Display a "Terminal Too Small" warning.
     - Pause game updates until the terminal is enlarged.
 - **Dynamic Centering:** Calculate horizontal and vertical padding dynamically using `stdout.terminalColumns` and `stdout.terminalLines` to keep the UI centered.
+
+## User-Friendly Input & Normalization
+
+### 1. Case Insensitivity
+In a CLI game, requiring the user to match the case of the secret word (e.g., 'a' vs 'A') creates unnecessary friction.
+- **Implementation:** Both the `secretWord` and the user's `guess` should be normalized (e.g., `.toUpperCase()`) before comparison.
+- **Why TDD?** We write tests for this to ensure that even if the game is initialized with a lowercase word, an uppercase guess still matches.
+
+## Terminal Screen Refreshing (Fundamentals)
+
+### 1. The Screen Buffer
+The terminal is essentially a grid of characters. When you `print()`, you are appending to the bottom of the buffer. 
+- **The Problem:** Without refreshing, the terminal becomes a "infinite scroll" of every state of the game, making it hard to follow.
+
+### 2. The "Clear-and-Redraw" vs. "Surgical Update"
+- **Surgical Update:** Moving the cursor to a specific `(x, y)` and overwriting just one character. Very fast, but complex to manage.
+- **Clear-and-Redraw (Recommended):**
+    1. Send the ANSI escape code `\x1B[2J` (Clear Screen) and `\x1B[H` (Home Cursor).
+    2. Redraw the entire UI.
+    3. **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.

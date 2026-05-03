@@ -9,11 +9,13 @@ class HangmanGame {
   /// Initializes a new game session.
   /// 
   /// [secretWord] is the target word to be guessed.
+  /// It is normalized to uppercase to ensure case-insensitive gameplay.
   /// [remainingLives] defaults to 6, a standard for Hangman.
   HangmanGame({
-    required this.secretWord,
+    required String secretWord,
     this.remainingLives = 6,
-  }) : guessedLetters = {};
+  })  : secretWord = secretWord.toUpperCase(),
+        guessedLetters = {};
 
   /// Processes a user's guess.
   /// 

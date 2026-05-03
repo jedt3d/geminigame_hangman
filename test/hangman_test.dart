@@ -42,6 +42,17 @@ void main() {
       expect(result, isFalse);
       expect(game.remainingLives, equals(5), reason: 'Duplicate incorrect guess should not reduce lives twice');
     });
+
+    test('Guessing is case-insensitive', () {
+      // WHY: Users shouldn't be punished for having Caps Lock on or off.
+      // We normalize everything to uppercase internally.
+      final game = HangmanGame(secretWord: 'Dart'); // Mixed case secret word
+      
+      expect(game.guess('d'), isTrue, reason: 'Lowercase guess should match uppercase letter');
+      expect(game.guess('A'), isTrue, reason: 'Uppercase guess should match lowercase letter');
+      expect(game.guessedLetters, contains('D'));
+      expect(game.guessedLetters, contains('A'));
+    });
   });
 
   group('Terminal Size Guarding', () {
