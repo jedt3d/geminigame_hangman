@@ -26,6 +26,9 @@ This project is a CLI Hangman game built with Dart, following TDD and GSD (Get S
   - Message format: `[Topic/Phase] Short description (e.g., [TDD: Green] Add word validation)`.
 - **Changelog:** Update `CHANGELOG.md` with every milestone, including a timestamp.
 
+## Custom Workflows
+- **Update Concept:** When a valuable technical or architectural concept is discussed, use the keyword "update concept" to trigger its documentation in `CONCEPT.md`.
+
 ## Building and Running
 ### Commands
 - **Initialize Project:** `dart create . --force`
