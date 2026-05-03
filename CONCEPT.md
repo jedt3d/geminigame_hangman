@@ -63,3 +63,17 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
     1. Send the ANSI escape code `\x1B[2J` (Clear Screen) and `\x1B[H` (Home Cursor).
     2. Redraw the entire UI.
     3. **Why?** It is simpler to implement, less prone to "ghost characters," and modern terminals handle it so fast there is no flickering.
+
+## TDD Progress Log
+
+### Cycle 1: Foundation & Guarding
+- **Objective:** Initialize game state and validate terminal environment.
+- **Why:** Ensuring the environment is safe (Dimension Guarding) and the game state is consistent before any logic is applied.
+
+### Cycle 2: Guessing Logic
+- **Objective:** Implement core "Update" rules (lives, guess tracking).
+- **Why:** To verify the "Brain" of the game independently of the UI. Focuses on state transitions.
+
+### Cycle 3: Case Insensitivity
+- **Objective:** Normalize all input to uppercase.
+- **Why:** User experience (UX) improvement. Prevents "false negative" guesses based on character case.

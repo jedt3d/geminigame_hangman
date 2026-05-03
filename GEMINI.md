@@ -27,7 +27,10 @@ This project is a CLI Hangman game built with Dart, following TDD and GSD (Get S
 - **Changelog:** Update `CHANGELOG.md` with every milestone, including a timestamp.
 
 ## Custom Workflows
-- **Update Concept:** When a valuable technical or architectural concept is discussed, use the keyword "update concept" to trigger its documentation in `CONCEPT.md`.
+- **Update Concept:** When a valuable technical or architectural concept is discussed, or a TDD cycle is completed, use the keyword "update concept" to trigger its documentation in `CONCEPT.md`. This MUST include:
+  - Technical rationale.
+  - TDD Cycle summaries (Objective and Why).
+  - Any architectural shifts.
 
 ## Building and Running
 ### Commands
