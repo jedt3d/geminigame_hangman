@@ -81,7 +81,13 @@ The terminal is essentially a grid of characters. When you `print()`, you are ap
 ### Cycle 4: Masked Word Logic
 - **Objective:** Transform the secret word into a displayable string (e.g., `_ A _ T`).
 - **Why:** Core visual mechanic. Allows the user to see their progress without revealing the whole word.
+- **Technical Rationale:** Spaces are added between characters (`_ _ _`) because consecutive underscores can appear as a single solid line in many terminal fonts, making it impossible for the player to count the letters.
 - **Status:** Complete (Green).
+
+### Cycle 5: ASCII Gallows Rendering
+- **Objective:** Provide a visual representation of the player's remaining lives using ASCII art.
+- **Why:** Essential thematic element of Hangman. Provides immediate, high-signal feedback on the game's stakes.
+- **Technical Rationale:** We will use multi-line string literals (triple quotes in Dart) to store the gallows states, mapped to the `remainingLives` count.
 pendently of the UI. Focuses on state transitions.
 
 ### Cycle 3: Case Insensitivity
